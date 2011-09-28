@@ -3,9 +3,9 @@ DIR=`pwd`
 CMD=$1
 SCREEN_NAME="nova"
 SCREEN_STATUS=${SCREEN_STATUS:-1}
+SOURCE_URL=https://github.com/openstack/nova.git
 
 if [ "$CMD" = "branch" ]; then
-    SOURCE_BRANCH=${2:-lp:nova}
     DIRNAME=${3:-nova}
 else
     DIRNAME=${2:-nova}
@@ -79,12 +79,11 @@ else
 fi
 
 if [ "$CMD" == "branch" ]; then
-    sudo apt-get install -y bzr
-    if [ ! -e "$DIR/.bzr" ]; then
-        bzr init-repo $DIR
+    sudo apt-get install -y git
+    if [ ! -e "$NOVA_DIR" ]; then
+        mkdir -p $NOVA_DIR
+        git clone $SOURCE_URL $NOVA_DIR
     fi
-    rm -rf $NOVA_DIR
-    bzr branch $SOURCE_BRANCH $NOVA_DIR
     cd $NOVA_DIR
     mkdir -p $NOVA_DIR/instances
     mkdir -p $NOVA_DIR/networks
