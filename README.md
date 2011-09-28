@@ -15,12 +15,20 @@ Use the script to install and run the current trunk. You can also specify a spec
     ./nova.sh branch
     ./nova.sh install
 
+Create a volume group.
+
+    sudo dd if=./volumes bs=1000 count=1100000     #1.1Gb file
+    sudo losetup --show -f ./volumes
+    # replace /dev/loop0 with that losetup returns
+    sudo vgcreate nova-volumes /dev/loop0
+
 Unless you want to spend a lot of time fiddling with permissions and sudoers, you should probably run nova as root.
 
     sudo ./nova.sh run
 
 The run command will drop you into a screen session with all of the workers running in different windows  You can use eucatools to run commands against the cloud.
 
+    source nova/novarc
     euca-add-keypair test > test.pem
     euca-run-instances -k test -t m1.tiny ami-tty
     euca-describe-instances
