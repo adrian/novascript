@@ -6,6 +6,7 @@ SCREEN_STATUS=${SCREEN_STATUS:-1}
 SOURCE_URL=https://github.com/openstack/nova.git
 
 if [ "$CMD" = "branch" ]; then
+    SOURCE_BRANCH=${2:-master}
     DIRNAME=${3:-nova}
 else
     DIRNAME=${2:-nova}
@@ -85,6 +86,7 @@ if [ "$CMD" == "branch" ]; then
         git clone $SOURCE_URL $NOVA_DIR
     fi
     cd $NOVA_DIR
+    git checkout $SOURCE_BRANCH
     mkdir -p $NOVA_DIR/instances
     mkdir -p $NOVA_DIR/networks
     exit
